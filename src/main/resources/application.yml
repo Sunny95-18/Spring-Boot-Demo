@@ -1,3 +1,9 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: COMPANY-SERVER
+#eureka:
+#  client:
+#    service-url:
+#      default: http://localhost:8761/eureka

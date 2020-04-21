@@ -2,6 +2,8 @@ package com.sjw.test.controller.user;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sjw.test.common.BaseController;
+import com.sjw.test.common.aspect.LogAnnotation;
+import com.sjw.test.common.utils.IPUtils;
 import com.sjw.test.common.vo.Request;
 import com.sjw.test.common.vo.Response;
 import com.sjw.test.entity.user.User;
@@ -12,11 +14,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -54,7 +58,10 @@ public class UserController extends BaseController {
     }
     @ApiOperation(value = "用户登录", notes = "用户登录",consumes = "application/json")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Response<UserTokenVo> login(@RequestBody Request<UserLoginDto> request){
+    @LogAnnotation(module = "用户模块",action ="用户登录" )
+    public Response<UserTokenVo> login(@RequestBody Request<UserLoginDto> request, HttpServletRequest httpServletRequest){
+        String ip= IPUtils.getIpAddr(httpServletRequest);
+        log.info("ip:{}",ip);
         return success(userService.login(request.getData()));
     }
 }
