@@ -1,5 +1,6 @@
 package com.sjw.test.common.utils;
 
+import com.sjw.test.entity.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -52,6 +53,33 @@ public class IPUtils {
 //		}
         
         return ip;
+    }public static byte[] memset(int c, int length) {
+	    System.out.println("c:"+c);
+        byte[] buffer = new byte[length];
+
+        int i = 0;
+
+        for (i = 0; i < length; i++) {
+            buffer[i] = (byte) c;
+        }
+
+        return buffer;
     }
-	
+
+public static void test1(int a){
+	    System.out.println("a:"+a);
+}
+    public static void main(String[] args) {
+//        test1(0x00010100);
+//        System.out.println(Math.pow(2,8)+Math.pow(2,16));
+        byte[] pucData = new byte[10];
+        System.out.println(pucData.length);
+        for(int i=0;i<pucData.length;i++){
+            System.out.println(pucData[i]);
+        }
+//        int a=0;
+//        int b='\0';
+//        System.out.println((byte)a==(byte)b);
+//        System.out.println();
+    }
 }
