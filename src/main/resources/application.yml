@@ -7,3 +7,8 @@ spring:
 #  client:
 #    service-url:
 #      default: http://localhost:8761/eureka
+
+#springBoot加密组件，自定义加密密钥
+jasypt:
+  encryptor:
+    password: CodeSheep

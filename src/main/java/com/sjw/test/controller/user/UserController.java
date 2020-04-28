@@ -3,12 +3,15 @@ package com.sjw.test.controller.user;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sjw.test.common.BaseController;
 import com.sjw.test.common.aspect.LogAnnotation;
+import com.sjw.test.common.exceptions.SysExceptionEnum;
+import com.sjw.test.common.exceptions.SystemException;
 import com.sjw.test.common.utils.IPUtils;
 import com.sjw.test.common.vo.Request;
 import com.sjw.test.common.vo.Response;
 import com.sjw.test.entity.user.User;
 import com.sjw.test.entity.user.dto.UserLoginDto;
 import com.sjw.test.entity.user.vo.UserTokenVo;
+import com.sjw.test.service.redis.RedisService;
 import com.sjw.test.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +25,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Sunny
@@ -38,6 +42,9 @@ public class UserController extends BaseController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private RedisService redisService;
 
     @ApiOperation(value = "获取所有用户", notes = "获取所有用户",consumes = "application/json")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -59,10 +66,21 @@ public class UserController extends BaseController {
     }
     @ApiOperation(value = "用户登录", notes = "用户登录",consumes = "application/json")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @LogAnnotation(module = "用户模块",action ="用户登录" )
+//    @LogAnnotation(module = "用户模块",action ="用户登录" )
     public Response<UserTokenVo> login(@RequestBody Request<UserLoginDto> request, HttpServletRequest httpServletRequest){
         String ip= IPUtils.getIpAddr(httpServletRequest);
-        log.info("ip:{}",ip);
+        Object result=redisService.get("LOGIN_"+ip);
+        if(result==null){
+            redisService.set("LOGIN_"+ip,1);
+        }else{
+            int count=Integer.parseInt(result.toString());
+            if(count>2){
+                throw new SystemException(SysExceptionEnum.LOGIN_ERROR.getCode(),SysExceptionEnum.LOGIN_ERROR.getMessage());
+            }else{
+                redisService.set("LOGIN_"+ip,++count,300L);
+            }
+        }
+
         return success(userService.login(request.getData()));
     }
 }

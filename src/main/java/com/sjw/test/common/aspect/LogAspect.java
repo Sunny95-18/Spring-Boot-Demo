@@ -88,7 +88,10 @@ public class LogAspect {
             Response response= (Response) result;
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+            if(auth.getPrincipal().equals("anonymousUser")){
+                log.error("未登录");
+                return;
+            }
             UserInfoDetails userInfoDetails=(UserInfoDetails)auth.getPrincipal();
             log.info("userInfoDetails；{}",userInfoDetails);
             String username = userInfoDetails.getUsername();

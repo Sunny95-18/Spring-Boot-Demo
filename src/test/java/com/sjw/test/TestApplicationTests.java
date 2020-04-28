@@ -1,6 +1,5 @@
 package com.sjw.test;
 
-import com.sjw.test.entity.user.dto.UserLoginDto;
 import com.sjw.test.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,9 @@ class TestApplicationTests {
     }
 
     @Test
-    public void testLogin(){
-        UserLoginDto userLoginDto=new UserLoginDto();
-        userLoginDto.setUsername("sunny");
-        userLoginDto.setPassword("123456");
-        userService.login(userLoginDto);
+    public void testLogin() throws Exception{
+        Process process= Runtime.getRuntime().exec("notepad.exe");
+       int rv= process.waitFor();
+       System.out.println("rv:"+rv);
     }
 }

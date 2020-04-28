@@ -45,6 +45,22 @@ public class RedisService {
             return false;
         }
     }
+    /**
+     * 普通缓存放入-可设置过期时间
+     * @param key 键
+     * @param value 值
+     *@param expire 过期时间
+     * @return true成功 false失败
+     */
+    public boolean set(String key,Object value,Long expire){
+        try {
+            redisTemplate.opsForValue().set(key, value,expire,TimeUnit.SECONDS);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     //获取根据name获取缓存用户
     public User getCacheUser(String name){
         if (StringUtils.isEmpty(name)) {

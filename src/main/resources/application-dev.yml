@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7081
   tomcat:
     max-swallow-size: -1
   servlet:
@@ -66,7 +66,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
-    password: 123456
+    password: ENC(El1GMuPAdWzBkiF1dm2tmNLRueqRrk93mEGc097q/IB6G8SuotN+3KDEdxdxzIqo)
   #redis 配置
   redis:
     database: 0
@@ -105,6 +105,6 @@ logging:
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: mySecret #JWT加解密使用的密钥
-  expiration: 604800 #JWT的超期限时间(60*60*24)
+  expiration: 3600 #JWT的超期限时间(60*60)
   tokenHead: Bearer  #JWT负载中拿到开头
 

@@ -2,6 +2,7 @@ package com.sjw.test.service.user.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sjw.test.common.aspect.LogAnnotation;
 import com.sjw.test.common.exceptions.SysExceptionEnum;
 import com.sjw.test.common.exceptions.SystemException;
 import com.sjw.test.common.utils.JwtTokenUtil;
@@ -14,11 +15,13 @@ import com.sjw.test.service.redis.RedisService;
 import com.sjw.test.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,15 +59,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
     public boolean updateUser(String name) {
         log.info("修改用户");
-        User user=userMapper.selectById(1);
+        boolean flag=false;
+        int id=1;
+        User user=userMapper.selectById(id);
         if(null!=user){
             user.setName(name);
+             flag=updateById(user);
             log.info("修改成功");
-            return updateById(user);
         }
-        return false;
+        return flag;
     }
 
     @Override
@@ -79,11 +85,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                  return null;
              }
              //将user放入缓存
-              redisService.cacheUser(username,user,120L);
+              redisService.cacheUser(username,user,3600L);
          }
          return user;
     }
     @Override
+
     public UserTokenVo login(UserLoginDto userLoginDto) {
             String token=null;
             UserInfoDetails userInfoDetails =(UserInfoDetails) userDetailsService.loadUserByUsername(userLoginDto.getUsername());
@@ -100,12 +107,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userInfoDetails);
 
-        log.info("token:{}",token);
+            log.info("token:{}",token);
          UserTokenVo userTokenVo=new UserTokenVo();
          userTokenVo.setUsername(userInfoDetails.getUsername());
          userTokenVo.setId(userInfoDetails.getUser().getId());
          userTokenVo.setToken(token);
-
         return userTokenVo;
     }
 
@@ -124,4 +130,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.info("注册用户;{}",user.toString());
         return userMapper.insert(user)==1?true:false;
     }
+
 }

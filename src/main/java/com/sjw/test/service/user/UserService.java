@@ -24,5 +24,6 @@ public interface UserService extends IService<User> {
 
     UserTokenVo login(UserLoginDto userLoginDto);
 
+
     Boolean register(UserLoginDto dto);
 }
