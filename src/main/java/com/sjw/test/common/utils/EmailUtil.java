@@ -103,7 +103,7 @@ public class EmailUtil {
         for(int i=0;i<tos.size();i++){
             to[i] = new InternetAddress(tos.get(i));
         }
-        // 多个收件人地址 GPJWQCCTZPLMULFO
+        // 多个收件人地址
         msg.setRecipients(Message.RecipientType.TO, to);
         msg.setSubject(msg1.getSubject()); // 标题
         msg.setText(msg1.getMsg());// 内容

@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2020/4/17 13:49
  */
 @Slf4j
-@Component
+//@Component
 public class TestTask {
 
 //    @Scheduled(cron = "0 0/1 * ? * ?")

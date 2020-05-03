@@ -46,12 +46,6 @@ public class UserController extends BaseController {
     @Resource
     private RedisService redisService;
 
-    @ApiOperation(value = "获取所有用户", notes = "获取所有用户",consumes = "application/json")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @LogAnnotation(module = "用户模块",action ="获取所有用户" )
-    public Response<List<User>> list(){
-         return success(userService.seleceUsers());
-    }
 
     @ApiOperation(value = "修改用户", notes = "修改用户",consumes = "application/json")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
