@@ -17,8 +17,9 @@ public class PlanScheduler {
 
     @Scheduled(cron = "*/5 * * * * ?")
     public void test1(){
-
-        System.out.println("this is a test1");
-        log.info("date:{}",new Date().toString());
+        log.info("info date:{}",new Date().toString());
+        log.debug("debug date:{}",new Date().toString());
+        log.warn("warn date:{}",new Date().toString());
+        log.error("error date:{}",new Date().toString());
     }
 }
