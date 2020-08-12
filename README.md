@@ -1,1 +1,1 @@
- 一个小demo
+一个springBoot Demo， 使用了，springBoot+mybatis plus+mysql+swagger+redis+jwt+spring security
