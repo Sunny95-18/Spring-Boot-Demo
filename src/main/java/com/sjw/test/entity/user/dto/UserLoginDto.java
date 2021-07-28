@@ -20,4 +20,6 @@ public class UserLoginDto implements Serializable {
     @NotNull
     @ApiModelProperty("密码")
     private String password;
+
+
 }

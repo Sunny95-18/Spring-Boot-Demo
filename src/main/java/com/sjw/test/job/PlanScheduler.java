@@ -15,7 +15,7 @@ import java.util.Date;
 @Slf4j
 public class PlanScheduler {
 
-    @Scheduled(cron = "*/5 * * * * ?")
+//    @Scheduled(cron = "*/5 * * * * ?")
     public void test1(){
         log.info("info date:{}",new Date().toString());
         log.debug("debug date:{}",new Date().toString());

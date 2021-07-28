@@ -22,6 +22,7 @@ public enum SysExceptionEnum {
     NO_LOGIN(505L, "未登录"),
     SQL_ERROR(508L, "数据库操作异常,字段不合格或者主键冲突等!"),
     LOGIN_ERROR(509L,"登录次数太多，请稍后重试"),
+    ACCESS_LIMIT_REACHED(510L,"请求次数过于频繁！"),
 
     //100XXX 自定义异常
     USER_IS_NOT_EXIST(100001L,"用户不存在"),
